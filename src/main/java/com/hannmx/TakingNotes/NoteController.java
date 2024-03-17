@@ -15,8 +15,13 @@ public class NoteController {
     @Autowired
     private NoteRepository noteRepository;
 
+    @Autowired
+    private NoteFactory noteFactory;
+
     @PostMapping
     public ResponseEntity<Note> addNote(@RequestBody Note note) {
+        // Использование фабрики для создания нового экземпляра Note
+        Note newNote = noteFactory.createNoteWithTitleAndContent(note.getTitle(), note.getContent());
         if (note.getTitle() == null || note.getContent() == null) {
             return ResponseEntity.badRequest().build();
         }
